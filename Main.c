@@ -1,3 +1,8 @@
+// =====================================================
+// 	Created by Artem Akishin on 07/07/2019.
+//  Copyright © 2019 Artem Akishin. All rights reserved.
+// =====================================================
+
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #define N 3			// Кол-во строк
