@@ -1,22 +1,22 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
-#define N 3			// Кол-во строк
-#define M 4			// Кол-во столбцов
+#define N 3			// РљРѕР»-РІРѕ СЃС‚СЂРѕРє
+#define M 4			// РљРѕР»-РІРѕ СЃС‚РѕР»Р±С†РѕРІ
 
-// Инициализация переменных
+// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРµСЂРµРјРµРЅРЅС‹С…
 int menu;
 FILE *F1;
 FILE *F2;
-int mas[N][M];		// Массив матрицы
-int indi[M];		// Массив индексов i
-int indj[M];		// Массив индексов j
-int min[M];			// Массив локальных минимумов
-int k = 0;			// Счетчик локальных минимумов
-int count = 0;		// Счетчик матриц
+int mas[N][M];		// РњР°СЃСЃРёРІ РјР°С‚СЂРёС†С‹
+int indi[M];		// РњР°СЃСЃРёРІ РёРЅРґРµРєСЃРѕРІ i
+int indj[M];		// РњР°СЃСЃРёРІ РёРЅРґРµРєСЃРѕРІ j
+int min[M];		// РњР°СЃСЃРёРІ Р»РѕРєР°Р»СЊРЅС‹С… РјРёРЅРёРјСѓРјРѕРІ
+int k = 0;		// РЎС‡РµС‚С‡РёРє Р»РѕРєР°Р»СЊРЅС‹С… РјРёРЅРёРјСѓРјРѕРІ
+int count = 0;		// РЎС‡РµС‚С‡РёРє РјР°С‚СЂРёС†
 
 int main() {
 
-	// Проверка на доступ к файлам
+	// РџСЂРѕРІРµСЂРєР° РЅР° РґРѕСЃС‚СѓРї Рє С„Р°Р№Р»Р°Рј
 	if ((F1 = fopen("F1.txt", "w")) == NULL) {
 		printf("Error! File doesn'r exist.");
 		return 1;
@@ -26,10 +26,10 @@ int main() {
 		return 1;
 	}
 
-	// Замкнутый цикл с постусловием
+	// Р—Р°РјРєРЅСѓС‚С‹Р№ С†РёРєР» СЃ РїРѕСЃС‚СѓСЃР»РѕРІРёРµРј
 	do
 	{
-		// Пользовательское меню
+		// РџРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРѕРµ РјРµРЅСЋ
 		printf("Choose action:\n");
 		printf("[1] Enter matrix.\n");
 		printf("[2] Exit.\n");
@@ -37,7 +37,7 @@ int main() {
 		switch (menu) {
 		case 1:
 
-			// Ввод элементов матрицы
+			// Р’РІРѕРґ СЌР»РµРјРµРЅС‚РѕРІ РјР°С‚СЂРёС†С‹
 			printf("Enter matrix elements:\n");
 			for (int i = 0; i < N; i++) {
 				for (int j = 0; j < M; j++) {
@@ -47,8 +47,8 @@ int main() {
 			}
 			count++;
 
-			// Запись матриц(-ы) в файл F1
-			fprintf(F1, "Номер матрицы: %d\nМатрица:\n", count);
+			// Р—Р°РїРёСЃСЊ РјР°С‚СЂРёС†(-С‹) РІ С„Р°Р№Р» F1
+			fprintf(F1, "РќРѕРјРµСЂ РјР°С‚СЂРёС†С‹: %d\nРњР°С‚СЂРёС†Р°:\n", count);
 			for (int i = 0; i < N; i++) {
 				for (int j = 0; j < M; j++) {
 					fprintf(F1, "%d", mas[i][j]);
@@ -56,11 +56,14 @@ int main() {
 			}
 			fprintf(F1, "\n\n");
 
-			// Поиск локального минимума
+			// РџРѕРёСЃРє Р»РѕРєР°Р»СЊРЅРѕРіРѕ РјРёРЅРёРјСѓРјР°
 			for (int i = 0; i < N; i++) {
 				for (int j = 0; j < M; j++) {
 					if ((mas[i][j] < mas[i + 1][j]) && (mas[i][j] < mas[i][j + 1]) && (mas[i][j] < mas[i - 1][j]) && (mas[i][j] < mas[i][j - 1])) {
 						int ry1 = mas[i][j];
+						
+						// РђСЃСЃРµРјР±Р»РµСЂРЅР°СЏ РІСЃС‚Р°РІРєР°:
+						// РћРїСЂРµРґРµР»РµРЅРёРµ Рё Р·Р°РїРёСЃСЊ Р»РѕРєР°Р»СЊРЅРѕРіРѕ РјРёРЅРёРјСѓРјР°
 						_asm {
 							mov esi, k
 							mov eax, ry1
@@ -76,71 +79,17 @@ int main() {
 							xor eax, eax
 							xor esi, esi
 						}
-						/*min[k] = mas[i][j];
-						ind[0][k] = i;
-						ind[1][k] = j;
-						k++;*/
 					}
 				}
 			}
-			/*
-			_asm {
-				mov ecx, N
-				xor esi, esi
-				mov ebx, k
-			m1 :
-				push ecx
-				mov ecx, M
-				xor edi, edi
-			m2 :
-				mov eax, mas[edi]
-				cmp eax, mas[edi + 1]
-				jl itog1
-				mov eax, mas[edi]
-				cmp eax, mas[edi - 1]
-				jl itog1
-
-			itog1 :
-				mov min[ebx], eax
-				mov ind[ebx], esi
-				inc ebx
-
-				inc edi
-				loop m2
-
-				mov eax, mas[esi]
-				cmp eax, mas[esi + 1]
-				jl itog2
-				mov eax, mas[esi]
-				cmp eax, mas[esi - 1]
-				jl itog2
-
-			itog2 :
-				mov min[ebx], eax
-				mov ind[ebx], edi
-				inc ebx
-
-				inc esi
-				pop ecx
-				loop m1
-				mov k, ebx
-			}
-			printf("nomer matr %d\n", count);
-			printf("kolvo min: %d\nznach: ", k);
-			for (int i = 0; i < k; i++) {
-				printf("[%d] ", min[i]);
-			}
-			printf("\nind: ");
-			for (int i = 0; i < k; i++) {
-				printf("[%d][%d] ", ind[0][i], ind[1][i]);
-			}*/
-			// Запись сведений матриц(-ы) в файл F2
-			fprintf(F2, "№ матрицы: %d\n", count);
-			fprintf(F2, "Кол-во минимумов: %d\nЗначения: ", k);
+				
+			// Р—Р°РїРёСЃСЊ СЃРІРµРґРµРЅРёР№ РјР°С‚СЂРёС†(-С‹) РІ С„Р°Р№Р» F2
+			fprintf(F2, "в„– РјР°С‚СЂРёС†С‹: %d\n", count);
+			fprintf(F2, "РљРѕР»-РІРѕ РјРёРЅРёРјСѓРјРѕРІ: %d\nР—РЅР°С‡РµРЅРёСЏ: ", k);
 			for (int i = 0; i < k; i++) {
 				fprintf(F2, "[%d] ", min[i]);
 			}
-			fprintf(F2, "\nИндексы: ");
+			fprintf(F2, "\nРРЅРґРµРєСЃС‹: ");
 			for (int i = 0; i < k; i++) {
 				fprintf(F2, "[%d][%d] ", indi[i], indj[i]);
 			}
@@ -148,7 +97,7 @@ int main() {
 			break;
 		case 2:
 
-			// Условие для выхода из цикла
+			// РЈСЃР»РѕРІРёРµ РґР»СЏ РІС‹С…РѕРґР° РёР· С†РёРєР»Р°
 			menu = 2;
 			break;
 		}
