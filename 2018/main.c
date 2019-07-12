@@ -1,3 +1,8 @@
+// =====================================================
+// 	Created by Artem Akishin on 12/08/2018.
+//  Copyright © 2018 Artem Akishin. All rights reserved.
+// =====================================================
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
